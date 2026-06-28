@@ -1,0 +1,74 @@
+openapi: 3.0.3
+info:
+  title: Loyalty Rewards API
+  description: Customer loyalty and rewards — points, perks, and repeat-visit rewards for Flavortown regulars
+  version: 1.0.0
+servers:
+  - url: https://loyalty-rewards.flavortown.internal
+paths:
+  /health:
+    get:
+      summary: Health check
+      responses:
+        '200':
+          description: Healthy
+  /rewards/{customerId}:
+    get:
+      summary: Get a customer's rewards balance and perks
+      parameters:
+        - name: customerId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: The customer's current rewards
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Rewards'
+  /rewards/{customerId}/redeem:
+    post:
+      summary: Redeem points for a perk
+      parameters:
+        - name: customerId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RedeemRequest'
+      responses:
+        '200':
+          description: Perk redeemed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Rewards'
+components:
+  schemas:
+    Rewards:
+      type: object
+      properties:
+        customerId:
+          type: string
+        points:
+          type: integer
+        tier:
+          type: string
+          enum: [bronze, silver, gold, flavortown-vip]
+        perks:
+          type: array
+          items:
+            type: string
+    RedeemRequest:
+      type: object
+      required: [perkId]
+      properties:
+        perkId:
+          type: string

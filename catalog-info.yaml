@@ -1,0 +1,33 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: loyalty-rewards
+  description: Customer loyalty and rewards service — points, perks, and repeat-visit rewards for Flavortown regulars
+  annotations:
+    github.com/project-slug: portal-interview/loyalty-rewards
+    backstage.io/techdocs-ref: dir:.
+  links:
+    - url: https://github.com/portal-interview/loyalty-rewards
+      title: GitHub
+spec:
+  type: service
+  lifecycle: production
+  owner: group:default/team-triple-d
+  system: ordering-system
+  providesApis:
+    - loyalty-rewards-api
+  consumesApis:
+    - menu-api
+---
+apiVersion: backstage.io/v1alpha1
+kind: API
+metadata:
+  name: loyalty-rewards-api
+  description: Customer loyalty and rewards API
+spec:
+  type: openapi
+  lifecycle: production
+  owner: group:default/team-triple-d
+  system: ordering-system
+  definition:
+    $text: ./openapi.yaml
