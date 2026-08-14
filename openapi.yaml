@@ -1,8 +1,11 @@
 openapi: 3.0.3
 info:
   title: Loyalty Rewards API
-  description: Customer loyalty and rewards — points, perks, and repeat-visit rewards for Flavortown regulars
-  version: 1.0.0
+  description: Customer loyalty and rewards — points, perks, and repeat-visit rewards for Flavortown regulars.
+  version: 1.0.1
+tags:
+  - name: Rewards
+    description: View and redeem customer loyalty rewards.
 servers:
   - url: https://loyalty-rewards.flavortown.internal
 paths:
@@ -14,6 +17,8 @@ paths:
           description: Healthy
   /rewards/{customerId}:
     get:
+      tags: [Rewards]
+      operationId: getCustomerRewards
       summary: Get a customer's rewards balance and perks
       parameters:
         - name: customerId
@@ -30,6 +35,8 @@ paths:
                 $ref: '#/components/schemas/Rewards'
   /rewards/{customerId}/redeem:
     post:
+      tags: [Rewards]
+      operationId: redeemCustomerReward
       summary: Redeem points for a perk
       parameters:
         - name: customerId
